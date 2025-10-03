@@ -13,10 +13,12 @@ xAxis = [0,x];
 
 % Reading in fils to struct (credit: Jeff Glusman)
 
-a=dir('data/*mA');
+a=dir('../data/*mA');
 
 for i=1:length(a)
-    thermocouples = load(a(i).name);
+    thermocouples = readmatrix(['../data/' a(i).name]);
+    thermocouples = removeNaNs(thermocouples);
+
     b = strsplit(a(i).name,'_'); % gives a cell array (b) that is 1x3
     matTable(i).name = b{1};
     % {'material','voltsV','ampsmA'} -- now split by 'V' and 'mA'
