@@ -13,7 +13,7 @@ xAxis = [0,x];
 
 % Reading in fils to struct (credit: Jeff Glusman)
 
-a=dir('*mA');
+a=dir('data/*mA');
 
 for i=1:length(a)
     thermocouples = load(a(i).name);
