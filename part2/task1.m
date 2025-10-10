@@ -39,4 +39,23 @@ for i=1:length(a)
     matTable(i).init_vals = thermocouples(1,2:9);
 end
 
-u_Al25_T8 = matTable(1).T_0 + matTable(1).H_an * .1238 +
+t = 1:1000;
+H = matTable(1).H_an;
+L = .1492;
+x = .1238;
+alpha = 130 / (960*2810);
+
+summation = 0;
+
+% sin((2*n-1)*pi*x/(2*L))
+
+for n=1:10
+    summation = summation + ((-1)^n * 8*H / (((2*n-1)*pi)^2)) .* -1^(n+1) .* exp(-((2*n-1)*pi/(2*L))^2*alpha.*t);
+end
+
+u_Al25_T8 = matTable(1).T_0 + H*x + summation;
+
+plot(t,u_Al25_T8,'LineWidth',2,'Color','red')
+xlabel("Time (t)");
+ylabel("u(T8,t)");
+title("Plot 1")
