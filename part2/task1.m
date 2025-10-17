@@ -14,9 +14,20 @@ xAxis = [0,x];
 
 a=dir('../data/*mA');
 
+thermocouples.Al25 = readmatrix(['../data/' a(1).name]);
+thermocouples.Al25 = removeNaNs(thermocouples.Al25);
+thermocouples.Al30 = readmatrix(['../data/' a(2).name]);
+thermocouples.Al30 = removeNaNs(thermocouples.Al30);
+thermocouples.Br25 = readmatrix(['../data/' a(3).name]);
+thermocouples.Br25 = removeNaNs(thermocouples.Br25);
+thermocouples.Br30 = readmatrix(['../data/' a(4).name]);
+thermocouples.Br30 = removeNaNs(thermocouples.Br30);
+thermocouples.St22 = readmatrix(['../data/' a(5).name]);
+thermocouples.St22 = removeNaNs(thermocouples.St22);
+
 for i=1:length(a)
-    thermocouples = readmatrix(['../data/' a(i).name]);
-    thermocouples = removeNaNs(thermocouples);
+    thermo_temp = readmatrix(['../data/' a(i).name]);
+    thermo_temp = removeNaNs(thermo_temp);
 
     b = strsplit(a(i).name,'_'); % gives a cell array (b) that is 1x3
     matTable(i).name = b{1};
@@ -28,7 +39,7 @@ for i=1:length(a)
     matTable(i).rho = rho(names==matTable(i).name);
     matTable(i).cp = cp(names==matTable(i).name); 
     matTable(i).k = k(names==matTable(i).name); 
-    matTable(i).ssValues = thermocouples(end,2:9);
+    matTable(i).ssValues = thermo_temp(end,2:9);
     [p,S] = polyfit(x,matTable(i).ssValues,1);
     [matTable(i).y_fit,delta] = polyval(p,[0,x],S);
     matTable(i).H_exp = p(1);
@@ -36,26 +47,29 @@ for i=1:length(a)
     matTable(i).Q = matTable(i).volts * matTable(i).amps;
     matTable(i).H_an = matTable(i).Q / (matTable(i).k * A);
     matTable(i).y = matTable(i).T_0 + matTable(i).H_an .* xAxis;
-    matTable(i).init_vals = thermocouples(1,2:9);
+    matTable(i).init_vals = thermo_temp(1,2:9);
 end
 
-t = 1:1000;
+t = 1000;
 H = matTable(1).H_an;
-L = .1492;
-x = .1238;
+L = .1905;
+x = .1651;
 alpha = 130 / (960*2810);
 
 summation = 0;
 
-% sin((2*n-1)*pi*x/(2*L))
-
-for n=1:10
-    summation = summation + ((-1)^n * 8*H / (((2*n-1)*pi)^2)) .* -1^(n+1) .* exp(-((2*n-1)*pi/(2*L))^2*alpha.*t);
+for i = 1:10
+    for n=1:i
+        summation = summation + ((-1)^n * 8*H*L / (((2*n-1)*pi)^2)) * -1^(n+1) * exp(-((2*n-1)*pi/(2*L))^2*alpha*t);
+    end
+    
+    u_Al25_T8(i) = matTable(1).T_0 + H*x + summation;
 end
 
-u_Al25_T8 = matTable(1).T_0 + H*x + summation;
 
-plot(t,u_Al25_T8,'LineWidth',2,'Color','red')
-xlabel("Time (t)");
-ylabel("u(T8,t)");
-title("Plot 1")
+figure(1);
+plot(1:10,u_Al25_T8,linewidth=2)
+xlabel("Iterations (n)");
+ylabel("Temperature (C)");
+title("Analytical Temperature over n");
+legend("Analytical Temperature (u)",Location="northwest");
