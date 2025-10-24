@@ -50,26 +50,49 @@ for i=1:length(a)
     matTable(i).init_vals = thermo_temp(1,2:9);
 end
 
-t = 1000;
 H = matTable(1).H_an;
 L = .1905;
 x = .1651;
 alpha = 130 / (960*2810);
 
-summation = 0;
-
+t = 1;
 for i = 1:10
+    summation = 0;
     for n=1:i
-        summation = summation + ((-1)^n * 8*H*L / (((2*n-1)*pi)^2)) * -1^(n+1) * exp(-((2*n-1)*pi/(2*L))^2*alpha*t);
+        lambda = (2*n-1)*pi/(2*L);
+        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+
+        summation = summation + bn * sin(lambda*x) * exp(-lambda^2*alpha*t);
     end
     
     u_Al25_T8(i) = matTable(1).T_0 + H*x + summation;
 end
+t_u(1,1) = matTable(1).T_0 + H*x;
+t_u(1,2:length(u_Al25_T8)+1) = u_Al25_T8;
+
+t = 1000;
+for i = 1:10
+    summation = 0;
+    for n=1:i
+        lambda = (2*n-1)*pi/(2*L);
+        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+
+        summation = summation + bn * sin(lambda*x) * exp(-(lambda^2*alpha*t));
+    end
+    
+    u_Al25_T8(i) = matTable(1).T_0 + H*x + summation;
+end
+t_u(2,1) = matTable(1).T_0 + H*x;
+t_u(2,2:length(u_Al25_T8)+1) = u_Al25_T8;
 
 
 figure(1);
-plot(1:10,u_Al25_T8,linewidth=2)
+hold on;
+plot(0:10,t_u(1,:),linewidth=2)
+plot(0:10,t_u(2,:),linewidth=2)
+hold off;
+
 xlabel("Iterations (n)");
 ylabel("Temperature (C)");
 title("Analytical Temperature over n");
-legend("Analytical Temperature (u)",Location="northwest");
+legend(["Analytical Temperature (t = 1s)","Analytical Temperature (t = 1000s)"],Location="northeast");
