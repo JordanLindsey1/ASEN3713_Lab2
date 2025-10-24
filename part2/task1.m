@@ -1,5 +1,6 @@
 clc;
 clear;
+close all;
 
 % Defining material properties
 rho = [2810 8500 8500]; 
@@ -50,6 +51,8 @@ for i=1:length(a)
     matTable(i).init_vals = thermo_temp(1,2:9);
 end
 
+%% MATERIAL 1
+
 H = matTable(1).H_an;
 L = .1905;
 x = .1651;
@@ -94,5 +97,195 @@ hold off;
 
 xlabel("Iterations (n)");
 ylabel("Temperature (C)");
-title("Analytical Temperature over n");
-legend(["Analytical Temperature (t = 1s)","Analytical Temperature (t = 1000s)"],Location="northeast");
+title("Aluminum at 25 volts");
+legend(["Analytical Temperature (t = 1s)","Analytical Temperature (t = 1000s)"],Location="best");
+
+
+%% MATERIAL 2
+
+H = matTable(2).H_an;
+
+t = 1;
+for i = 1:10
+    summation = 0;
+    for n=1:i
+        lambda = (2*n-1)*pi/(2*L);
+        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+
+        summation = summation + bn * sin(lambda*x) * exp(-lambda^2*alpha*t);
+    end
+    
+    u_Al25_T8(i) = matTable(1).T_0 + H*x + summation;
+end
+t_u(1,1) = matTable(1).T_0 + H*x;
+t_u(1,2:length(u_Al25_T8)+1) = u_Al25_T8;
+
+t = 1000;
+for i = 1:10
+    summation = 0;
+    for n=1:i
+        lambda = (2*n-1)*pi/(2*L);
+        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+
+        summation = summation + bn * sin(lambda*x) * exp(-(lambda^2*alpha*t));
+    end
+    
+    u_Al25_T8(i) = matTable(1).T_0 + H*x + summation;
+end
+t_u(2,1) = matTable(1).T_0 + H*x;
+t_u(2,2:length(u_Al25_T8)+1) = u_Al25_T8;
+
+
+figure(2);
+hold on;
+plot(0:10,t_u(1,:),linewidth=2)
+plot(0:10,t_u(2,:),linewidth=2)
+hold off;
+
+xlabel("Iterations (n)");
+ylabel("Temperature (C)");
+title("Aluminum at 30 volts");
+legend(["Analytical Temperature (t = 1s)","Analytical Temperature (t = 1000s)"],Location="best");
+
+
+%% MATERIAL 3
+
+H = matTable(3).H_an;
+
+t = 1;
+for i = 1:10
+    summation = 0;
+    for n=1:i
+        lambda = (2*n-1)*pi/(2*L);
+        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+
+        summation = summation + bn * sin(lambda*x) * exp(-lambda^2*alpha*t);
+    end
+    
+    u_Al25_T8(i) = matTable(1).T_0 + H*x + summation;
+end
+t_u(1,1) = matTable(1).T_0 + H*x;
+t_u(1,2:length(u_Al25_T8)+1) = u_Al25_T8;
+
+t = 1000;
+for i = 1:10
+    summation = 0;
+    for n=1:i
+        lambda = (2*n-1)*pi/(2*L);
+        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+
+        summation = summation + bn * sin(lambda*x) * exp(-(lambda^2*alpha*t));
+    end
+    
+    u_Al25_T8(i) = matTable(1).T_0 + H*x + summation;
+end
+t_u(2,1) = matTable(1).T_0 + H*x;
+t_u(2,2:length(u_Al25_T8)+1) = u_Al25_T8;
+
+
+figure(3);
+hold on;
+plot(0:10,t_u(1,:),linewidth=2)
+plot(0:10,t_u(2,:),linewidth=2)
+hold off;
+
+xlabel("Iterations (n)");
+ylabel("Temperature (C)");
+title("Brass at 25 volts");
+legend(["Analytical Temperature (t = 1s)","Analytical Temperature (t = 1000s)"],Location="best");
+
+
+%% MATERIAL 4
+
+H = matTable(2).H_an;
+
+t = 1;
+for i = 1:10
+    summation = 0;
+    for n=1:i
+        lambda = (2*n-1)*pi/(2*L);
+        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+
+        summation = summation + bn * sin(lambda*x) * exp(-lambda^2*alpha*t);
+    end
+    
+    u_Al25_T8(i) = matTable(1).T_0 + H*x + summation;
+end
+t_u(1,1) = matTable(1).T_0 + H*x;
+t_u(1,2:length(u_Al25_T8)+1) = u_Al25_T8;
+
+t = 1000;
+for i = 1:10
+    summation = 0;
+    for n=1:i
+        lambda = (2*n-1)*pi/(2*L);
+        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+
+        summation = summation + bn * sin(lambda*x) * exp(-(lambda^2*alpha*t));
+    end
+    
+    u_Al25_T8(i) = matTable(1).T_0 + H*x + summation;
+end
+t_u(2,1) = matTable(1).T_0 + H*x;
+t_u(2,2:length(u_Al25_T8)+1) = u_Al25_T8;
+
+
+figure(4);
+hold on;
+plot(0:10,t_u(1,:),linewidth=2)
+plot(0:10,t_u(2,:),linewidth=2)
+hold off;
+
+xlabel("Iterations (n)");
+ylabel("Temperature (C)");
+title("Brass at 30 volts");
+legend(["Analytical Temperature (t = 1s)","Analytical Temperature (t = 1000s)"],Location="best");
+
+
+%% MATERIAL 5
+
+H = matTable(2).H_an;
+
+t = 1;
+for i = 1:10
+    summation = 0;
+    for n=1:i
+        lambda = (2*n-1)*pi/(2*L);
+        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+
+        summation = summation + bn * sin(lambda*x) * exp(-lambda^2*alpha*t);
+    end
+    
+    u_Al25_T8(i) = matTable(1).T_0 + H*x + summation;
+end
+t_u(1,1) = matTable(1).T_0 + H*x;
+t_u(1,2:length(u_Al25_T8)+1) = u_Al25_T8;
+
+t = 1000;
+for i = 1:10
+    summation = 0;
+    for n=1:i
+        lambda = (2*n-1)*pi/(2*L);
+        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+
+        summation = summation + bn * sin(lambda*x) * exp(-(lambda^2*alpha*t));
+    end
+    
+    u_Al25_T8(i) = matTable(1).T_0 + H*x + summation;
+end
+t_u(2,1) = matTable(1).T_0 + H*x;
+t_u(2,2:length(u_Al25_T8)+1) = u_Al25_T8;
+
+
+figure(5);
+hold on;
+plot(0:10,t_u(1,:),linewidth=2)
+plot(0:10,t_u(2,:),linewidth=2)
+hold off;
+
+xlabel("Iterations (n)");
+ylabel("Temperature (C)");
+title("Steel at 22 volts");
+legend(["Analytical Temperature (t = 1s)","Analytical Temperature (t = 1000s)"],Location="best");
+
+
