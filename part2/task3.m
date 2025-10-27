@@ -70,7 +70,7 @@ for i = 0:7
         summation = summation + bn * sin(lambda*x) .* exp(-lambda^2*alpha.*t);
     end
     
-    u_t(:,i+1) = thermocouples.Al25(1,i+2) + H*x + summation;
+    u_t(:,i+1) = matTable(1).T_0 + H*x + summation;
 end
 
 
@@ -106,7 +106,7 @@ for i = 0:7
         summation = summation + bn * sin(lambda*x) .* exp(-lambda^2*alpha.*t);
     end
     
-    u_t(:,i+1) = thermocouples.Al30(1,i+2) + H*x + summation;
+    u_t(:,i+1) = matTable(2).T_0 + H*x + summation;
 end
 
 figure(2);
@@ -140,7 +140,7 @@ for i = 0:7
         summation = summation + bn * sin(lambda*x) .* exp(-lambda^2*alpha.*t);
     end
     
-    u_t(:,i+1) = thermocouples.Br25(1,i+2) + H*x + summation;
+    u_t(:,i+1) = matTable(3).T_0 + H*x + summation;
 end
 
 figure(3);
@@ -174,7 +174,7 @@ for i = 0:7
         summation = summation + bn * sin(lambda*x) .* exp(-lambda^2*alpha.*t);
     end
     
-    u_t(:,i+1) = thermocouples.Br30(1,i+2) + H*x + summation;
+    u_t(:,i+1) = matTable(4).T_0 + H*x + summation;
 end
 
 figure(4);
@@ -208,7 +208,7 @@ for i = 0:7
         summation = summation + bn * sin(lambda*x) .* exp(-lambda^2*alpha.*t);
     end
     
-    u_t(:,i+1) = thermocouples.St22(1,i+2) + H*x + summation;
+    u_t(:,i+1) = matTable(5).T_0 + H*x + summation;
 end
 
 figure(5);

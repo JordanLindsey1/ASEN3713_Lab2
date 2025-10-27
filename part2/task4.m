@@ -63,7 +63,7 @@ L = .1905;
 alpha = 130 / (960*2810);
 t = (0:(length(thermocouples.Al25) - 1)) .* 10;
 u_t = zeros(length(thermocouples.Al25),8);
-M_exp = matTable(1).M_exp;
+M = matTable(1).M_exp;
 
 for i = 0:7
     x = 0.0349 + 0.0127*i;
@@ -71,7 +71,7 @@ for i = 0:7
     summation = 0;
     for n=1:10
         lambda = (2*n-1)*pi/(2*L);
-        bn = -(2*(M_exp - H)/(lambda*L)) * (lambda*L*cos(lambda*L) - sin(lambda*L));
+        bn = 2/L * (M-H) * (sin(lambda*L)-lambda*L*cos(lambda*L))/(lambda^2);
     
         summation = summation + bn * sin(lambda*x) .* exp(-lambda^2*alpha.*t);
     end
@@ -94,12 +94,13 @@ ylabel("Temperature (C)");
 title("Aluminum at 25 volts");
 legend(["Modeled Data","Experimental Data"],Location="southeast");
 
-%{
+
 %% MATERIAL 2
 
 H = matTable(2).H_exp;
 t = (0:(length(thermocouples.Al30) - 1)) .* 10;
 u_t = zeros(length(thermocouples.Al30),8);
+M = matTable(2).M_exp;
 
 for i = 0:7
     x = 0.0349 + 0.0127*i;
@@ -107,12 +108,12 @@ for i = 0:7
     summation = 0;
     for n=1:10
         lambda = (2*n-1)*pi/(2*L);
-        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+        bn = 2/L * (M-H) * (sin(lambda*L)-lambda*L*cos(lambda*L))/(lambda^2);
     
         summation = summation + bn * sin(lambda*x) .* exp(-lambda^2*alpha.*t);
     end
     
-    u_t(:,i+1) = thermocouples.Al30(1,i+2) + H*x + summation;
+    u_t(:,i+1) = matTable(2).T_0 + H*x + summation;
 end
 
 figure(2);
@@ -134,6 +135,7 @@ legend(["Modeled Data","Experimental Data"],Location="southeast");
 H = matTable(3).H_exp;
 t = (0:(length(thermocouples.Br25) - 1)) .* 10;
 u_t = zeros(length(thermocouples.Br25),8);
+M = matTable(3).M_exp;
 
 for i = 0:7
     x = 0.0349 + 0.0127*i;
@@ -141,12 +143,12 @@ for i = 0:7
     summation = 0;
     for n=1:10
         lambda = (2*n-1)*pi/(2*L);
-        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+        bn = 2/L * (M-H) * (sin(lambda*L)-lambda*L*cos(lambda*L))/(lambda^2);
     
         summation = summation + bn * sin(lambda*x) .* exp(-lambda^2*alpha.*t);
     end
     
-    u_t(:,i+1) = thermocouples.Br25(1,i+2) + H*x + summation;
+    u_t(:,i+1) = matTable(3).T_0 + H*x + summation;
 end
 
 figure(3);
@@ -168,6 +170,7 @@ legend(["Modeled Data","Experimental Data"],Location="southeast");
 H = matTable(4).H_exp;
 t = (0:(length(thermocouples.Br30) - 1)) .* 10;
 u_t = zeros(length(thermocouples.Br30),8);
+M = matTable(4).M_exp;
 
 for i = 0:7
     x = 0.0349 + 0.0127*i;
@@ -175,12 +178,12 @@ for i = 0:7
     summation = 0;
     for n=1:10
         lambda = (2*n-1)*pi/(2*L);
-        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+        bn = 2/L * (M-H) * (sin(lambda*L)-lambda*L*cos(lambda*L))/(lambda^2);
     
         summation = summation + bn * sin(lambda*x) .* exp(-lambda^2*alpha.*t);
     end
     
-    u_t(:,i+1) = thermocouples.Br30(1,i+2) + H*x + summation;
+    u_t(:,i+1) = matTable(4).T_0 + H*x + summation;
 end
 
 figure(4);
@@ -202,6 +205,7 @@ legend(["Modeled Data","Experimental Data"],Location="southeast");
 H = matTable(5).H_exp;
 t = (0:(length(thermocouples.St22) - 1)) .* 10;
 u_t = zeros(length(thermocouples.St22),8);
+M = matTable(5).M_exp;
 
 for i = 0:7
     x = 0.0349 + 0.0127*i;
@@ -209,12 +213,12 @@ for i = 0:7
     summation = 0;
     for n=1:10
         lambda = (2*n-1)*pi/(2*L);
-        bn = (-1)^n * 8*H*L / (((2*n-1)*pi)^2);
+        bn = 2/L * (M-H) * (sin(lambda*L)-lambda*L*cos(lambda*L))/(lambda^2);
     
         summation = summation + bn * sin(lambda*x) .* exp(-lambda^2*alpha.*t);
     end
     
-    u_t(:,i+1) = thermocouples.St22(1,i+2) + H*x + summation;
+    u_t(:,i+1) = matTable(5).T_0 + H*x + summation;
 end
 
 figure(5);
@@ -231,4 +235,3 @@ title("Steel at 22 volts");
 legend(["Modeled Data","Experimental Data"],Location="southeast");
 
 
-%}
