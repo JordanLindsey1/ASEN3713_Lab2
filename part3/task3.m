@@ -2,7 +2,7 @@
 % /*  Author: ASEN3802 GROUP 27                                   */
 % /*  Title:  Th8 vs Model                                         */
 % /*  Purpose: Plot thermocouple (Th8) experimental data with      */
-% /*           ±TC uncertainty bounds and compare to model curve.  */
+% /*           TC uncertainty bounds and compare to model curve.  */
 % /*  Creation Date: 2025-11-03                                    */
 % /*  Revisions: Yes, All the Revisions                            */
 % /****************************************************************/
